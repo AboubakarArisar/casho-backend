@@ -12,6 +12,8 @@ const UserSchema = new mongoose.Schema(
       default: "user",
     },
     committees: [{ type: mongoose.Schema.Types.ObjectId, ref: "Committee" }],
+    // creditScore: 0-100, higher means more reliable payer
+    creditScore: { type: Number, default: 100 },
   },
   { timestamps: true },
 );

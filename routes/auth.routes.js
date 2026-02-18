@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
+const auth = require("../middlewares/auth");
 const authController = require("../controllers/auth.controller");
 
 router.post(
@@ -18,5 +19,8 @@ router.post(
   [body("email").isEmail(), body("password").exists()],
   authController.login,
 );
+
+// Get current user profile (includes creditScore & committees)
+router.get("/me", auth, authController.getMe);
 
 module.exports = router;

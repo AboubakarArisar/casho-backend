@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const roles = require("../middlewares/roles");
 const adminController = require("../controllers/admin.controller");
+const committeeController = require("../controllers/committee.controller");
 
 // global admin and superadmin can access dashboard
 router.get(
@@ -32,12 +33,20 @@ router.post(
   adminController.promoteUser,
 );
 
-// delete a committee (global admin action)
+// delete a committee (global admin action — reuses committee controller)
 router.delete(
   "/committees/:id",
   auth,
   roles(["admin", "superadmin"]),
-  adminController.deleteCommittee,
+  committeeController.deleteCommittee,
+);
+
+// get credit score for a user by id (admin/superadmin only)
+router.get(
+  "/users/:id/credit",
+  auth,
+  roles(["admin", "superadmin"]),
+  adminController.getUserCredit,
 );
 
 module.exports = router;
